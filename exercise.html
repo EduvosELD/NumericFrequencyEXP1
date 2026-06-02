@@ -13,12 +13,13 @@
 <body>
     <section class="py-4">
         <div class="container" style="transform:translateY(-41px) scale(0.88);padding-top:26px;">
-            <div class="text-white bg-primary border rounded border-0 border-primary d-flex flex-column justify-content-between flex-lg-row p-4" style="transform: scale(0.64);width: auto;">
+            <div class="text-white bg-primary border rounded border-0 border-primary d-flex flex-column justify-content-between flex-lg-row p-4" style="transform:scale(0.64);width:auto;">
                 <h2 class="fw-bold mb-2" style="text-align:center;">Numeric Frequency Distribution Exercise 1</h2>
                 <p class="mb-0" style="font-size:25px;text-align:center;transform:translateX(5px);">Use the raw data to on the left to create a numeric frequency distribution table.&nbsp; Use the sorting area to help to sort your numbers from lowest to highest</p>
             </div>
         </div>
     </section>
+    <div id="congratsMessage"><span>🎉 Congratulations! You got everything correct! 🎉</span></div>
     <div class="container my-4" style="transform:translateY(-69px) scale(0.92);">
         <div class="row align-items-start g-4">
             <div class="col-lg-5 text-center">
@@ -171,6 +172,7 @@
         // 4. Live Grading Evaluation Module
         checkBtn.addEventListener('click', () => {
             disableAllInputs(); // Disable all inputs when check answers is clicked
+            let allCorrect = true;
 
             // Check Individual Data Rows
             selectElements.forEach((select, index) => {
@@ -202,6 +204,7 @@
                     freqInput.classList.remove('is-valid-cell');
                     freqInput.classList.add('is-invalid-cell');
                     feedbackCell.innerHTML = `<span class="text-danger">✗ Incorrect. For ${selectedInterval}, target should be ${correctFreq}</span>`;
+                    allCorrect = false;
                 }
             });
 
@@ -219,9 +222,16 @@
                     totalInput.classList.remove('is-valid-cell');
                     totalInput.classList.add('is-invalid-cell');
                     totalFeedback.innerHTML = `<span class="text-danger">✗ Incorrect. Total sum of sample must equal 50</span>`;
+                    allCorrect = false;
                 }
             } else {
                 totalFeedback.innerHTML = '<span class="text-warning">Enter grand total</span>';
+                allCorrect = false;
+            }
+
+            // Show congratulations if everything is perfect
+            if (allCorrect) {
+                document.getElementById('congratsMessage').classList.add('show');
             }
 
             // Hide Check Answers and show Restart Experience
