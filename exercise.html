@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>NFDTables</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/introjs.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <section class="py-4">
+        <div class="container" style="transform:translateY(-41px) scale(0.88);padding-top:26px;">
+            <div class="text-white bg-primary border rounded border-0 border-primary d-flex flex-column justify-content-between flex-lg-row p-4" style="transform:scale(0.64);width:auto;">
+                <h2 class="fw-bold mb-2" style="text-align:center;">Numeric Frequency Distribution Exercise 1</h2>
+                <p class="mb-0" style="font-size:25px;text-align:center;transform:translateX(5px);">Use the raw data to on the left to create a numeric frequency distribution table.&nbsp; Use the sorting area to help to sort your numbers from lowest to highest</p>
+            </div>
+        </div>
+    </section>
+    <div id="congratsMessage"><span>🎉 Congratulations! You got everything correct! 🎉</span></div>
+    <div class="container my-4" style="transform:translateY(-69px) scale(0.92);">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-5 text-center">
+                <div class="card bg-light shadow-sm position-relative p-4 mb-4" style="max-width:420px;margin:0 auto;" id="intro-marks">
+                    <h5 class="fw-bold text-decoration-underline mb-3">class marks</h5>
+                    <p class="font-monospace lh-lg text-start mb-0" style="letter-spacing:0.5px;"> 72, 65, 82, 54, 91, 77, 63, 70, 88, 74,<br> 61, 79, 51, 73, 80, 95, 68, 75, 84, 71,<br> 76, 62, 90, 58, 78, 66, 85, 72, 60, 77,<br> 69, 73, 81, 55, 98, 70, 64, 87, 76, 74,<br> 67, 83, 92, 75, 68, 79, 71, 86, 73, 64 </p>
+                </div>
+                <div class="bg-white border rounded shadow-sm p-3" style="max-width:420px;margin:0 auto;" id="intro-sort"><button class="btn btn-primary w-100 mb-2" id="sortBtn" type="button"> Sort numbers from lowest to highest </button><textarea class="form-control" id="sortInput" placeholder="Paste or type numbers separated by commas here..." rows="4" style="resize:vertical;"></textarea></div>
+            </div>
+            <div class="col-lg-7" id="intro-table">
+                <div class="table-responsive bg-white border rounded shadow-sm p-3">
+                    <table class="table align-middle" id="exerciseTable">
+                        <thead>
+                            <tr>
+                                <th style="width:35%;background:#c8c9c9;">Mark intervals</th>
+                                <th style="width:25%;background:#c8c9c9;">Frequency</th>
+                                <th style="width:40%;background:#c8c9c9;">Validation Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-row="0">
+                                <td><select class="form-select interval-select">
+                                        <option value="">-- Select --</option>
+                                    </select></td>
+                                <td><input type="number" class="form-control freq-input" min="0"></td>
+                                <td><span class="text-muted feedback-text">Awaiting evaluation...</span></td>
+                            </tr>
+                            <tr data-row="1">
+                                <td><select class="form-select interval-select">
+                                        <option value="">-- Select --</option>
+                                    </select></td>
+                                <td><input type="number" class="form-control freq-input" min="0"></td>
+                                <td><span class="text-muted feedback-text">Awaiting evaluation...</span></td>
+                            </tr>
+                            <tr data-row="2">
+                                <td><select class="form-select interval-select">
+                                        <option value="">-- Select --</option>
+                                    </select></td>
+                                <td><input type="number" class="form-control freq-input" min="0"></td>
+                                <td><span class="text-muted feedback-text">Awaiting evaluation...</span></td>
+                            </tr>
+                            <tr data-row="3">
+                                <td><select class="form-select interval-select">
+                                        <option value="">-- Select --</option>
+                                    </select></td>
+                                <td><input type="number" class="form-control freq-input" min="0"></td>
+                                <td><span class="text-muted feedback-text">Awaiting evaluation...</span></td>
+                            </tr>
+                            <tr data-row="4">
+                                <td><select class="form-select interval-select">
+                                        <option value="">-- Select --</option>
+                                    </select></td>
+                                <td><input type="number" class="form-control freq-input" min="0"></td>
+                                <td><span class="text-muted feedback-text">Awaiting evaluation...</span></td>
+                            </tr>
+                            <tr class="table-lightfw-bold">
+                                <td class="fw-bold text-end">Total</td>
+                                <td><input class="fw-bold form-control" type="number" id="totalInput" min="0"></td>
+                                <td><span class="text-muted feedback-text" id="totalFeedback"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-end mt-3" id="intro-check"><button class="btn btn-success fw-bold px-4 py-2" id="checkAnswersBtn">Check Answers</button><button class="btn btn-info fw-bold d-none px-4 py-2" id="restartExperienceBtn">Restart Experience</button></div>
+            </div>
+        </div>
+    </div><script>
+        // 1. Core Data Matrix Definition
+        const masterIntervals = ["50-59", "60-69", "70-79", "80-89", "90-100"];
+        const answersKey = {
+        "50-59": 4,
+        "60-69": 11,
+        "70-79": 20,
+        "80-89": 9,
+        "90-100": 6
+        };
+        const totalExpected = 50;
+
+        // Document DOM Collections
+        const selectElements = document.querySelectorAll('.interval-select');
+        const freqInputs = document.querySelectorAll('.freq-input');
+        const sortBtn = document.getElementById('sortBtn');
+        const sortInput = document.getElementById('sortInput');
+        const checkBtn = document.getElementById('checkAnswersBtn');
+        const restartExperienceBtn = document.getElementById('restartExperienceBtn');
+
+        // 2. Mutual Exclusion Dropdown Logic engine
+        function updateDropdownOptions() {
+        // Locate all current student selections across the fields
+        const currentSelections = Array.from(selectElements).map(sel => sel.value).filter(val => val !== "");
+
+        selectElements.forEach(select => {
+        const savedValue = select.value;
+
+        // Clear out volatile old content selections
+        select.innerHTML = '<option value="">-- Select --</option>';
+
+        masterIntervals.forEach(interval => {
+        // Rebuild option maps dynamically if it's open OR already actively selected by this single row
+        if (!currentSelections.includes(interval) || interval === savedValue) {
+        const opt = document.createElement('option');
+        opt.value = interval;
+        opt.textContent = interval;
+        if (interval === savedValue) opt.selected = true;
+        select.appendChild(opt);
+        }
+        });
+        });
+        }
+
+        // Attach mutually exclusive dynamic listeners
+        selectElements.forEach(select => {
+        select.addEventListener('change', updateDropdownOptions);
+        });
+
+        // Initialize lists on document ready state
+        updateDropdownOptions();
+
+        // 3. Native String Sorting Processor Engine
+        sortBtn.addEventListener('click', () => {
+        let rawString = sortInput.value;
+        if (!rawString.trim()) return;
+
+        // Extract sequence fragments using custom character filter
+        let items = rawString.split(/[\s,]+/).filter(el => el.trim() !== "");
+
+        // Cast fragments to numeric sequences
+        let numericArray = items.map(Number).filter(n => !isNaN(n));
+
+        // Run sequential mathematical sort pattern ascending
+        numericArray.sort((a, b) => a - b);
+
+        // Reconstruct plain-text clean data presentation output directly into original node target
+        sortInput.value = numericArray.join(', ');
+        });
+
+        // Helper function to disable all inputs
+        function disableAllInputs() {
+            selectElements.forEach(select => {
+                select.setAttribute('disabled', 'true');
+            });
+            freqInputs.forEach(input => {
+                input.setAttribute('disabled', 'true');
+            });
+            sortInput.setAttribute('disabled', 'true');
+            document.getElementById('totalInput').setAttribute('disabled', 'true');
+            sortBtn.setAttribute('disabled', 'true');
+        }
+
+        // 4. Live Grading Evaluation Module
+        checkBtn.addEventListener('click', () => {
+            disableAllInputs(); // Disable all inputs when check answers is clicked
+            let allCorrect = true;
+
+            // Check Individual Data Rows
+            selectElements.forEach((select, index) => {
+                const selectedInterval = select.value;
+                const freqInput = freqInputs[index];
+                const userFreq = parseInt(freqInput.value, 10);
+                const row = select.closest('tr');
+                const feedbackCell = row.cells[2];
+
+                // Check for incomplete inputs
+                if (!selectedInterval || isNaN(userFreq)) {
+                    select.classList.remove('is-valid-cell', 'is-invalid-cell');
+                    freqInput.classList.remove('is-valid-cell', 'is-invalid-cell');
+                    feedbackCell.innerHTML = '<span class="text-warning">Incomplete row</span>';
+                    return;
+                }
+
+                const correctFreq = answersKey[selectedInterval];
+
+                if (userFreq === correctFreq) {
+                    select.classList.add('is-valid-cell');
+                    select.classList.remove('is-invalid-cell');
+                    freqInput.classList.add('is-valid-cell');
+                    freqInput.classList.remove('is-invalid-cell');
+                    feedbackCell.innerHTML = '<span class="text-success">✓ Correct</span>';
+                } else {
+                    select.classList.remove('is-valid-cell');
+                    select.classList.add('is-invalid-cell');
+                    freqInput.classList.remove('is-valid-cell');
+                    freqInput.classList.add('is-invalid-cell');
+                    feedbackCell.innerHTML = `<span class="text-danger">✗ Incorrect. For ${selectedInterval}, target should be ${correctFreq}</span>`;
+                    allCorrect = false;
+                }
+            });
+
+            // Evaluate Grand Total Aggregate Field Block
+            const totalInput = document.getElementById('totalInput');
+            const userTotal = parseInt(totalInput.value, 10);
+            const totalFeedback = document.getElementById('totalFeedback');
+
+            if (!isNaN(userTotal)) {
+                if (userTotal === totalExpected) {
+                    totalInput.classList.add('is-valid-cell');
+                    totalInput.classList.remove('is-invalid-cell');
+                    totalFeedback.innerHTML = '<span class="text-success">✓ Total Correct (50)</span>';
+                } else {
+                    totalInput.classList.remove('is-valid-cell');
+                    totalInput.classList.add('is-invalid-cell');
+                    totalFeedback.innerHTML = `<span class="text-danger">✗ Incorrect. Total sum of sample must equal 50</span>`;
+                    allCorrect = false;
+                }
+            } else {
+                totalFeedback.innerHTML = '<span class="text-warning">Enter grand total</span>';
+                allCorrect = false;
+            }
+
+            // Show congratulations if everything is perfect
+            if (allCorrect) {
+                document.getElementById('congratsMessage').classList.add('show');
+            }
+
+            // Hide Check Answers and show Restart Experience
+            checkBtn.classList.add('d-none');
+            restartExperienceBtn.classList.remove('d-none');
+        });
+
+        restartExperienceBtn.addEventListener('click', () => {
+            location.reload(); // Reload the page to restart the experience
+        });
+    </script><img class="img-fluid fixed-corner" width="287" height="112" src="assets/img/corner%20graphic.png" style="transform:translateX(61px) translateY(42px) scale(0.74);">
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js" type="module"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
